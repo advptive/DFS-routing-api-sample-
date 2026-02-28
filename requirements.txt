@@ -1,0 +1,7 @@
+folium
+geopy
+fastapi
+uvicorn
+pydantic
+numpy
+requests
