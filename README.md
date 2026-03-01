@@ -6,6 +6,9 @@ uvicorn main:app --reload
 ### Visual testing ### 
 python test_visualizer.py
 
+### Running all tests with detailed output ###
+pytest -v
+
 ### Request Body ### 
 {
   "start_coords": [50.4501, 30.5234],
