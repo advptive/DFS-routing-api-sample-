@@ -9,3 +9,5 @@ __pycache__/
 .idea/
 
 route_map.html
+
+.pytest_cache/

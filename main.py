@@ -169,6 +169,13 @@ def optimize_route_endpoint(request: RouteRequest):
     if len(request.tasks) > MAX_TASKS_LIMIT:
         raise HTTPException(status_code=400, detail=f"Перевищено ліміт. Максимум заявок: {MAX_TASKS_LIMIT}")
 
+    for task in request.tasks:
+        if task.weight > request.max_capacity:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Заявка #{task.id} занадто важка для цього авто."
+            )
+
     try:
         optimizer = RouteOptimizer(
             start_coords=request.start_coords,
@@ -187,6 +194,8 @@ def optimize_route_endpoint(request: RouteRequest):
             human_readable_steps=result["human_readable_steps"],
             total_road_distance_km=result["total_road_distance_km"]
         )
+    except HTTPException:
+        raise
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
     except RuntimeError as re:
